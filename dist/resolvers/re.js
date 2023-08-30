@@ -4,7 +4,7 @@ import bcrypt from "bcrypt";
 // const { bcrypt } = pkg;
 export const resolvers = {
     Mutation: {
-        registerUser: async (_, args, { userModel }) => {
+        registerUser: async (_, args, { UserModel }) => {
             const { registerInput: { username, email, password }, } = args;
             // create : async ( args)=>{
             //   function registerUser ({registerInput:{username,email,password,token}}){

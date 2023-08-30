@@ -1,18 +1,18 @@
-import { Sequelize } from "@sequelize/core";
+// import { Sequelize } from "@sequelize/core";
 
- export const sequelize = new Sequelize("dev", "postgres", "wuvwu", {
-  dialect: "postgres",
-  host: "localhost",
-});
- sequelize
-  .authenticate()
-  .then(() => {
-    console.log("Connection has been established successfully.");
-  })
-  .catch((error) => {
-    console.error("Unable to connect to the database: ", error);
-  });
- 
+// // export const sequelize = new Sequelize("dev", "postgres", "wuvwu", {
+// //   dialect: "postgres",
+// //   host: "localhost",
+// // });
+
+// export const sequelize = new Sequelize({
+//   database: "dev",
+//   username: "postgres",
+//   password: "wuvwu",
+//   host: "localhost",
+//   dialect: "postgres",
+// });
+
 // import { AuthenticationError } from 'apollo-server-errors';
 // const jwt =require('jsonwebtoken');
 // module.exports = (context)=>{

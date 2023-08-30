@@ -1,12 +1,13 @@
-import { User } from "./../Users.js";
+import { User } from "../Users.js";
 import { ApolloError } from "apollo-server-errors";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import { userModel } from "../model/userModel.js";
+import UserModel from "../models/usermodel.js";
+
 // const { bcrypt } = pkg;
 export const resolvers = {
   Mutation: {
-    registerUser: async (_: any, args: any, { userModel }: any) => {
+    registerUser: async (_: any, args: any, { UserModel }: any) => {
       const {
         registerInput: { username, email, password },
       } = args;
@@ -27,7 +28,7 @@ export const resolvers = {
           //   password: encryptedPassword,
           //   // token :token,
           // });
-          const newUser = {username, email, password};
+          const newUser = { username, email, password };
           return newUser;
           //  User.push(newUser);
         } catch (error) {
