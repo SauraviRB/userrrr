@@ -1,38 +1,28 @@
-import { Model, DataTypes, Sequelize } from '@sequelize/core';
+import { DataTypes } from "@sequelize/core";
+import sequelize from "../config/database";
 
-class UserModel extends Model {
-  public username!: string;
-  public email!: string;
-  public password!: string;
+const userModel = sequelize.define<any>("userModel", {
+  id: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    unique: true,
+    primaryKey: true,
+    autoIncrement: true,
+  },
+  username: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    unique: true,
+  },
+  email: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    unique: true,
+  },
+  password: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+});
 
-  // Other methods or properties can be added here
-
-  // Static method to define associations
-  public static associate(models: any): void {
-    // Define your associations here
-  }
-}
-
-export default (sequelize: Sequelize, dataTypes: typeof DataTypes): typeof UserModel => {
-  UserModel.init({
-    username: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      unique: true,
-    },
-    email: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      unique: true,
-    },
-    password: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-  }, {
-    sequelize,
-    modelName: 'userModel',
-  });
-
-  return UserModel;
-};
+export default userModel;
