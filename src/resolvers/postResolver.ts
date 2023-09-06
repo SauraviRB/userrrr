@@ -86,29 +86,33 @@ export const postResolver = {
     },
     deletePost: async (
       parent: ParentNode,
-      args: { postId: number },
+      args: { id: number },
       context: MyContext
     ) => {
       try {
         if (!context.user) throw new Error("Authorization header is required");
-        const { postId } = args;
-        const { error } = idValidator.validate({ postId });
+        const { id } = args;
+        const { error } = idValidator.validate({ id });
         if (error) throw error;
+        // const post = await new PostService(Post).findOne({id})
+        // console.log(post)
 
-        const deletedPost = await new PostService(Post).destroy({
-          id: args.postId,
+        const deletedPost = await new PostService(Post).delete({
+          id,
           userId: context.user.id,
         });
+        console.log(deletedPost)
 
         if (!deletedPost)
           throw new Error(` you cannot delete this post
-              : ${args.postId}`);
+              : ${id}`);
 
         return {
           status_code: status.success.okay,
-          message: `Post with id ${args.postId} is deleted successfully`,
+          message: `Post with id ${id} is deleted successfully`,
         };
-      } catch (error) {
+      } catch (error:any) {
+        console.log(error.message)
         throw new Error(`Error while deleting the post: ${error}`);
       }
     },

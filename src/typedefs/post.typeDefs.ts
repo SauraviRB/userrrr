@@ -37,6 +37,6 @@ type Query{
 type Mutation{
     createPost(input: UploadPostInput): Post
     updatePost(input: UpdatePostInput): Response
-    deletePost(postId:Int!):Response
+    deletePost(id:Int!):Response
 }
  `;

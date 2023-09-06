@@ -11,7 +11,6 @@ export async function authenticate(bearerToken: string) {
     // "Bearer [actual_token]", and it retrieves the [actual_token] part.
     if (token) {
       try {
-        console.log(token);
         const user = jwt.verify(token, JWT_SECRET_KEY);
         if (user) {
           return {

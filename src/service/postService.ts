@@ -1,4 +1,4 @@
-import { PostInterface } from "@src/interface";
+import { PostInterface } from "../interface";
 import { WhereOptions } from "sequelize";
 export class PostService {
   constructor(public readonly post: any) {}
@@ -16,9 +16,14 @@ export class PostService {
       where: { id: where.id },
     });
   }
-  async destroy(where: { id: number; userId: number}) {
-    return this.post.destroy({
+  async findOne(where: {id:number}): Promise<PostInterface> {
+    return this.post.findOne({ where });
+  }
+  async delete(where: { id: number; userId: number}) {
+    const deletedPost = await this.post.findOne({where})
+     this.post.destroy({
       where: { id: where.id, userId: where.userId},
     });
+    return deletedPost;
   }
 }
