@@ -1,16 +1,15 @@
 import { ApolloServer } from "@apollo/server";
 import { startStandaloneServer } from "@apollo/server/standalone";
-import { typeDefs } from "./typedefs/schema";
-// import { resolvers } from "./resolvers/userResolver";
-import sequelize from "./config/database";
-import { userResolvers } from "./resolvers/userResolver";
-import loginResolvers from "./resolvers/loginResolver";
-import { registerResolvers } from "./resolvers/registrationResolver";
-import logoutResolvers from "./resolvers/logoutResolver";
+import { postTypeDefs, userTypedefs } from "./typedefs";
+import sequelize from "./config/database.js";
+import { authResolver, postResolver } from "./resolvers";
+import { UserInterface } from "./interface";
+import { Context } from "./helpers";
 
 // A schema is a collection of type definitions (hence "typeDefs")
 // that together define the "shape" of queries that are executed against
 // your data.
+
 async function connectToPostgres() {
   try {
     await sequelize.authenticate().then(() => {
@@ -22,13 +21,20 @@ async function connectToPostgres() {
   }
 }
 const init = async () => {
+  interface MyContext {
+    user?: UserInterface | null;
+    token?: string | undefined;
+  }
   connectToPostgres();
+  console.log("Connected to postgres database");
   const server = new ApolloServer({
-    typeDefs,
-    resolvers: [userResolvers,loginResolvers,registerResolvers,logoutResolvers],
+    typeDefs: [postTypeDefs, userTypedefs],
+    resolvers: [postResolver, authResolver],
+    introspection: true,
   });
   const { url } = await startStandaloneServer(server, {
     listen: { port: 4000 },
+    context: Context,
   });
   console.log(`🚀  Server ready at: ${url}`);
 };

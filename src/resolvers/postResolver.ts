@@ -1,0 +1,116 @@
+import { MyContext } from "../helpers";
+import { GraphQLResolveInfo } from "graphql";
+import { Post } from "../models";
+import { createPostValidator, UpdatePostValidator } from "../validator";
+import { GetAllPostInterface } from "../interface";
+import { status } from "../helpers/status_code";
+import { PostService } from "../service";
+import { idValidator } from "../validator/validatorInput";
+
+export const postResolver = {
+  Query: {
+    getAllPosts: async (
+      parent: ParentNode,
+      args: { input: GetAllPostInterface },
+      context: MyContext
+    ) => {
+      try {
+        if (!context.user) {
+          throw new Error("Authorization header Missing");
+        }
+        let allPost = await new PostService(Post).findAll();
+        return allPost;
+      } catch (error) {
+        throw new Error(`Error while retrieving all posts: ${error}`);
+      }
+    },
+  },
+  Mutation: {
+    createPost: async (
+      parent: ParentNode,
+      args: { input: { description: string } },
+      context: MyContext,
+      info: GraphQLResolveInfo
+    ) => {
+      try {
+        if (!context.user) {
+          throw new Error("Authorization header Misiing");
+        }
+        const { error } = createPostValidator.validate(args.input);
+        if (error) throw error;
+
+        const { description } = args.input;
+
+        const newPost = await new PostService(Post).create({
+          description,
+          userId: context.user.id,
+        });
+        return newPost;
+      } catch (error) {
+        console.error("Error adding new post: ", error);
+        return error;
+      }
+    },
+    updatePost: async (
+      parent: ParentNode,
+      args: { input: { description: string; postId: number } },
+      context: MyContext
+    ) => {
+      try {
+        if (!context.user) throw new Error("Authorization header is required");
+
+        const { error } = UpdatePostValidator.validate(args.input);
+        if (error) throw error;
+
+        const { description, postId } = args.input;
+        // await Post.update(
+        //   { description },
+        //   {
+        //     where: {
+        //       id: postId,
+        //     },
+        //   }
+        // );
+        let updatePost = await new PostService(Post).update(
+          { id: postId }, // Condition for which post to update
+          { description } // Updated values
+        );
+        return {
+          status_code: status.success.okay,
+          message: `Post with id ${postId} is updated successfully`,
+        };
+      } catch (error) {
+        console.log(`Error while updating post: ${error}`);
+        throw new Error(`Error while updating the post: ${error}`);
+      }
+    },
+    deletePost: async (
+      parent: ParentNode,
+      args: { postId: number },
+      context: MyContext
+    ) => {
+      try {
+        if (!context.user) throw new Error("Authorization header is required");
+        const { postId } = args;
+        const { error } = idValidator.validate({ postId });
+        if (error) throw error;
+
+        const deletedPost = await new PostService(Post).destroy({
+          id: args.postId,
+          userId: context.user.id,
+        });
+
+        if (!deletedPost)
+          throw new Error(` you cannot delete this post
+              : ${args.postId}`);
+
+        return {
+          status_code: status.success.okay,
+          message: `Post with id ${args.postId} is deleted successfully`,
+        };
+      } catch (error) {
+        throw new Error(`Error while deleting the post: ${error}`);
+      }
+    },
+  },
+};

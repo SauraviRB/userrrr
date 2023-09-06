@@ -1,18 +1,20 @@
-import { ApolloServer } from "@apollo/server";
-import { startStandaloneServer } from "@apollo/server/standalone";
-import { typeDefs } from "./typedefs/schema";
-// import { resolvers } from "./resolvers/userResolver";
-import sequelize from "./config/database";
-import { userResolvers } from "./resolvers/userResolver";
-import loginResolvers from "./resolvers/loginResolver";
-import { registerResolvers } from "./resolvers/registrationResolver";
-import logoutResolvers from "./resolvers/logoutResolver";
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const server_1 = require("@apollo/server");
+const standalone_1 = require("@apollo/server/standalone");
+const typedefs_1 = require("./typedefs");
+const database_js_1 = __importDefault(require("./config/database.js"));
+const resolvers_1 = require("./resolvers");
+const helpers_1 = require("./helpers");
 // A schema is a collection of type definitions (hence "typeDefs")
 // that together define the "shape" of queries that are executed against
 // your data.
 async function connectToPostgres() {
     try {
-        await sequelize.authenticate().then(() => {
+        await database_js_1.default.authenticate().then(() => {
             console.log("Connection has been established successfully.");
         });
     }
@@ -23,13 +25,17 @@ async function connectToPostgres() {
 }
 const init = async () => {
     connectToPostgres();
-    const server = new ApolloServer({
-        typeDefs,
-        resolvers: [userResolvers, loginResolvers, registerResolvers, logoutResolvers],
+    console.log("Connected to postgres database");
+    const server = new server_1.ApolloServer({
+        typeDefs: [typedefs_1.postTypeDefs, typedefs_1.userTypedefs],
+        resolvers: [resolvers_1.postResolver, resolvers_1.authResolver],
+        introspection: true,
     });
-    const { url } = await startStandaloneServer(server, {
+    const { url } = await (0, standalone_1.startStandaloneServer)(server, {
         listen: { port: 4000 },
+        context: helpers_1.Context,
     });
     console.log(`🚀  Server ready at: ${url}`);
 };
 init();
+//# sourceMappingURL=server.js.map

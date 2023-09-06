@@ -1,4 +1,5 @@
-import("dotenv/config");
+import dotenv from "dotenv";
+dotenv.config();
 
 export const db = {
   username: process.env.DB_USERNAME,
@@ -6,4 +7,5 @@ export const db = {
   host: process.env.DB_HOST,
   port: process.env.DB_POST,
   name: process.env.DB_NAME,
+  
 };

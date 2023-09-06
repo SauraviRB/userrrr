@@ -1,11 +1,10 @@
-// import { User } from "../Users";
-export const typeDefs = `#graphql
+export const userTypedefs = `#graphql
   # Comments in GraphQL strings (such as this one) start with the hash (#) symbol.
 
   # This "Book" type defines the queryable fields for every book in our data source.
   type User {
     id: Int
-    username: String
+    fullname: String
     email: String
     password: String
    
@@ -14,7 +13,7 @@ export const typeDefs = `#graphql
   # clients can execute, along with the return type for each. In this
   # case, the "books" query returns an array of zero or more Books (defined above).
   input RegisterInput{
-    username: String
+    fullname: String
     email: String
     password: String
   }
@@ -22,28 +21,36 @@ export const typeDefs = `#graphql
     email:String
     password:String
   }
+  input EmailVerify{
+    email: String
+  }
   type Query {
-    user(id: ID!): User
-  users: [User]
+  getAllusers: [User]
     
   }
-  type AuthPayload {
-        token: String!
+ 
+  type LoginResponse{
+        email: String
+        status_code: Int
+        token: String
         message: String
-        success: Boolean
-        user: User!
-    }
+        expiresIn:String
+  }
+  type registrationResponse{
+    fullname: String
+    email: String
+  }
   type Mutation{
-    registerUser(registerInput:RegisterInput):User
-    loginUser(loginInput:LoginInput):AuthPayload
+    registerUser(registerInput:RegisterInput):registrationResponse
+    loginUser(loginInput:LoginInput):LoginResponse
   }
-  type Mutation {
-  logout: LogoutResponse!
-  }
+  # type Mutation {
+  # logout: LogoutResponse!
+  # }
 
-  type LogoutResponse {
-  success: Boolean!
-  message: String
-  }
+  # type LogoutResponse {
+  # success: Boolean!
+  # message: String
+  # }
 
 `;

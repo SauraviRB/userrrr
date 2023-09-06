@@ -1,2 +1,3 @@
-export * from "./tokenmodel";
-export * from "./usermodel"
+import userModel from "./user";
+import {Post} from './post'
+export { userModel, Post };

@@ -1,11 +1,9 @@
 import { Sequelize } from "@sequelize/core";
-import { db } from "./index";
+import { db } from "./index.js";
 
-
-const sequelize = new Sequelize(db.name, db.username, db.password, {
+const sequelize = new Sequelize(db.name!, db.username!, db.password, {
   dialect: "postgres",
   host: db.host,
   port: db.port,
 });
-console.log(db);
 export default sequelize;
