@@ -23,12 +23,12 @@ export const replyTypeDefs = `#graphql
 
     input PostReplyInput {
         description: String!
-        postId: Int!
+        commentId: Int!
     }
 
     input UpdateReplyInput {
         description: String!
-        commentId: Int!
+        replyId: Int!
     }
 
     type Query {

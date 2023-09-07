@@ -51,4 +51,15 @@ export const updateCommentValidator = joi.object({
 });
 export const deleteCommentValidator = joi.object({
   id : joi.number().label("comment id").required(),
-})
+});
+export const postReplyValidator = joi.object({
+  postId: joi.number().required().label("reply id"),
+  description: joi.string().min(3).max(500),
+});
+export const updateReplyValidator = joi.object({
+  replyId: joi.number().required().label("reply id"),
+  description: joi.string().min(3).max(500),
+});
+export const deleteReplyValidator = joi.object({
+  id : joi.number().label("reply id").required(),
+});

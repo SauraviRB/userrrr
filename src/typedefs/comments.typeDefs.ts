@@ -32,7 +32,7 @@ export const commentTypeDefs = `#graphql
     }
 
     type Query {
-        getComments : [Comment]
+        getComments:[Comment]
 
     }
 
