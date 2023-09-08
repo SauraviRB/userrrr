@@ -18,7 +18,13 @@ module.exports = {
         model: "users", // Name of the target table
         key: "id",     // Name of the target column
       },
+    
 
+    },
+    like_count:{
+      type: Sequelize.INTEGER,
+      default: 0,
+      allowNull:false,
     },
       created_at: {
         allowNull: false,

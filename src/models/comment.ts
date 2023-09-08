@@ -1,8 +1,8 @@
 // dist/models/userModel.js
 import { DataTypes } from "@sequelize/core";
-import sequelize from "../config/database.js";
-import userModel from "./user.js";
-import { Post } from "./post.js";
+import sequelize from "../config/database";
+import { Post, userModel,Reply } from ".";
+
 
 export const Comment = sequelize.define(
   "comment",

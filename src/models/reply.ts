@@ -1,8 +1,7 @@
 // dist/models/userModel.js
 import { DataTypes } from "@sequelize/core";
-import sequelize from "../config/database.js";
-import userModel from "./user.js";
-import { Comment } from "./comment.js";
+import sequelize from "../config/database";
+import { Comment, userModel } from ".";
 
 export const Reply = sequelize.define(
   "reply",
@@ -35,19 +34,6 @@ export const Reply = sequelize.define(
       },
     },
   },
-  // createdAt: {
-  //   type: DataTypes.DATE,
-  //   field: "created_at",
-  // },
-  // updatedAt: {
-  //   type: DataTypes.DATE,
-  //   field: "updated_at",
-  // },
-  // deletedAt: {
-  //   type: DataTypes.BOOLEAN,
-  //   field: "deleted_at",
-  // },
-
   {
     tableName: "reply",
     timestamps: true,

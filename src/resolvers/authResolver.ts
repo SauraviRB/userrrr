@@ -1,13 +1,32 @@
+import  bcrypt  from 'bcryptjs';
 import { LoginSchema, registerValidate } from "../validator/validatorInput";
-import bcrypt from "bcrypt";
 import { GraphQLError } from "graphql";
-import { UserInterface } from "../interface/userInterface.js";
-import { userModel } from "../models";
+import { UserInterface,InputUserInterface } from "../interface/userInterface.js";
+import { userModel,Post, Reply } from "../models";
 import { UserLoginInterface } from "../interface/userInterface.js";
 import { status } from "../helpers";
 import { getJwtToken } from "../helpers";
+import {MyContext} from '../helpers'
 
 export const authResolver = {
+  Query:{
+    getAllUsers: async (parent: ParentNode, args: { input: InputUserInterface },
+      context: MyContext) => {
+      try {
+        const allUsers = await userModel.findAll()
+        return allUsers
+      } catch (error) {
+        console.log(`Error while retrieving all users: ${error}`);
+
+      }
+
+    }
+  },
+  User: {
+    post: async (user: UserInterface) => await Post.findAll({where: {userId:user.id}}),
+    reply: async (user: UserInterface) => await Reply.findAll({where: {userId:user.id}}),
+
+},
   Mutation: {
     registerUser: async (_: any, args: { registerInput: UserInterface }) => {
       const {

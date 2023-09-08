@@ -5,3 +5,4 @@ export {UserLoginInterface} from './userInterface'
 export {GetAllPostInterface}
 export {CommentInterface, UpdateCommentInterface} from './commentInterface';
 export {ReplyInterface,UpdateReplyInterface} from './replyInterface'
+export {LikeInterface,PostLikeInterface} from './likeInterface'
