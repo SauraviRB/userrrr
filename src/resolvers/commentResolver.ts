@@ -1,7 +1,7 @@
 import { CommentInterface, UpdateCommentInterface } from "../interface";
 import { postCommentValidator, updateCommentValidator,deleteCommentValidator } from "../validator";
 import { MyContext } from "../helpers";
-import { Post, Comment, userModel } from "../models";
+import { Post, Comment, userModel,Reply } from "../models";
 import { CommentService } from "../service";
 import { status } from "../helpers";
 
@@ -23,12 +23,14 @@ export const commentResolver = {
       }
     },
   },
-  //   Comment: {
-  //     user: async (comment: CommentInterface) =>
-  //       await userModel.findByPk(comment.userId),
-  //     post: async (comment: CommentInterface) =>
-  //       await Post.findByPk(comment.postId),
-  //   },
+  Comment: {
+    user: async (comment: CommentInterface) =>
+      await userModel.findByPk(comment.userId),
+    post: async (comment: CommentInterface) =>
+      await Post.findByPk(comment.postId),
+    reply: async (comment: CommentInterface) =>
+      await Reply.findAll({ where: { commentId:comment.id }}),
+  },
   Mutation: {
     createComment: async (
       parent: ParentNode,

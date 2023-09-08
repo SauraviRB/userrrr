@@ -4,7 +4,7 @@ export const replyTypeDefs = `#graphql
         id: Int!
         description: String!
         userId: Int!
-        comment: Comment
+        comment(id:Int!): [Comment]
         user: User
         commentId: Int!
     }
@@ -32,7 +32,7 @@ export const replyTypeDefs = `#graphql
     }
 
     type Query {
-        getReplies:[Reply]
+        getReplies(id:Int!):[Reply]
 
     }
 

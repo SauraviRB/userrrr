@@ -1,14 +1,14 @@
 import { ReplyService } from "../service";
 import { status } from "../helpers";
-import {Reply,Comment} from '../models'
+import {Reply,Comment,userModel} from '../models'
 import { MyContext} from '../helpers'
-import { ReplyInterface,UpdateReplyInterface } from "@src/interface";
+import { ReplyInterface,UpdateReplyInterface } from "../interface";
 import {postReplyValidator,updateReplyValidator,deleteReplyValidator} from '../validator';
 
 
 export const replyResolver = {
   Query: {
-    getComments: async (
+    getReplies: async (
       parent: ParentNode,
       args: { id: number },
       context: MyContext
@@ -24,6 +24,10 @@ export const replyResolver = {
       }
     },
   },
+  Reply: {
+    user: async (Reply: ReplyInterface) => await userModel.findByPk(Reply.userId),
+    comment: async (Reply: ReplyInterface) => await Comment.findByPk(Reply.commentId),
+},
   Mutation: {
     createReply: async (
       parent: ParentNode,

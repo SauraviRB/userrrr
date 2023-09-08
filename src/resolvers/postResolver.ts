@@ -1,8 +1,8 @@
 import { MyContext } from "../helpers";
 import { GraphQLResolveInfo } from "graphql";
-import { Post } from "../models";
+import { Post,userModel,Comment } from "../models";
 import { createPostValidator, UpdatePostValidator } from "../validator";
-import { GetAllPostInterface } from "../interface";
+import { GetAllPostInterface,PostLikeInterface,PostInterface } from "../interface";
 import { status } from "../helpers/status_code";
 import { PostService } from "../service";
 import { idValidator } from "../validator/validatorInput";
@@ -25,6 +25,10 @@ export const postResolver = {
       }
     },
   },
+  Post: {
+    user: async (Post: PostInterface) => await userModel.findByPk(Post.userId),
+    comment: async (post:PostInterface)=> await Comment.findAll({where: {postId:post.id}})
+},
   Mutation: {
     createPost: async (
       parent: ParentNode,

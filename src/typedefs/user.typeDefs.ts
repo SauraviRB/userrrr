@@ -1,3 +1,4 @@
+
 export const userTypedefs = `#graphql
   # Comments in GraphQL strings (such as this one) start with the hash (#) symbol.
 
@@ -7,7 +8,10 @@ export const userTypedefs = `#graphql
     fullname: String
     email: String
     password: String
-   
+    post(id:Int!): [Post]
+    comment(id:Int!): [Comment]
+    reply(id:Int!): [Reply]
+    
   }
   # The "Query" type is special: it lists all of the available queries that
   # clients can execute, along with the return type for each. In this
@@ -24,10 +28,18 @@ export const userTypedefs = `#graphql
   input EmailVerify{
     email: String
   }
-  type Query {
-  getAllusers: [User]
-    
+  type Post{
+    description: String
   }
+  type Comment{
+    description: String
+
+  }
+  type Reply{
+    description: String
+
+  }
+
  
   type LoginResponse{
         email: String
@@ -40,17 +52,14 @@ export const userTypedefs = `#graphql
     fullname: String
     email: String
   }
+  type Query {
+  getAllusers(id:Int!): [User]
+    
+  }
   type Mutation{
     registerUser(registerInput:RegisterInput):registrationResponse
     loginUser(loginInput:LoginInput):LoginResponse
   }
-  # type Mutation {
-  # logout: LogoutResponse!
-  # }
-
-  # type LogoutResponse {
-  # success: Boolean!
-  # message: String
-  # }
+ 
 
 `;

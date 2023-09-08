@@ -34,7 +34,7 @@ export const likeTypeDefs = `#graphql
     }
 
     type Query {
-        getLikedPosts: [Like]
+        getLikedPosts(id:Int!): [Like]
     }
 
     type Mutation {

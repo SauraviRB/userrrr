@@ -1,15 +1,25 @@
+import { Comment } from './../models/comment';
 export const postTypeDefs = `#graphql
 
 type Post{
     id:Int!
     userId: Int
    description: String!
+   comment(id:Int!): [Comment]
+   user: User
+   reply:[Reply]
 
 }
 type User{
     fullname: String!
     email: String!
 
+}
+type Comment{
+    description: String
+}
+type Reply{
+    description: String
 }
 input GetAllPostInput{
     user: Int!
@@ -29,7 +39,7 @@ type Response{
 }
 
 type Query{
-    getAllPosts:[Post]
+    getAllPosts(id:Int!):[Post]
 #     getPostById(post_id:Int!):Post
 #     getMyPosts: [Post]
 }
