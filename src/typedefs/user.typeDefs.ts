@@ -1,4 +1,3 @@
-import { Post, Comment, Reply } from "../models";
 export const userTypedefs = `#graphql
   # Comments in GraphQL strings (such as this one) start with the hash (#) symbol.
 
@@ -8,17 +7,11 @@ export const userTypedefs = `#graphql
     fullname: String
     email: String
     password: String
-    post(id:Int!):[Post]
-    reply(id:Int!):[Reply]
-
    
   }
   # The "Query" type is special: it lists all of the available queries that
   # clients can execute, along with the return type for each. In this
   # case, the "books" query returns an array of zero or more Books (defined above).
-  type Reply{
-    description:String
-  }
   input RegisterInput{
     fullname: String
     email: String
@@ -28,8 +21,11 @@ export const userTypedefs = `#graphql
     email:String
     password:String
   }
+  input EmailVerify{
+    email: String
+  }
   type Query {
-    getAllUsers(id:Int!): [User]
+  getAllusers: [User]
     
   }
  

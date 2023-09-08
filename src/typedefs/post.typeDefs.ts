@@ -4,13 +4,7 @@ type Post{
     id:Int!
     userId: Int
    description: String!
-   user(id:Int!):[User]
-   comment(id:Int!):[Comment]
 
-
-}
-type Comment{
-    description:String
 }
 type User{
     fullname: String!
@@ -35,7 +29,7 @@ type Response{
 }
 
 type Query{
-    getAllPosts(id:Int!):[Post]
+    getAllPosts:[Post]
 #     getPostById(post_id:Int!):Post
 #     getMyPosts: [Post]
 }

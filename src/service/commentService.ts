@@ -12,7 +12,6 @@ export class CommentService {
     return this.comment.findAll({ where });
   }
   async findByPk(commentId: number): Promise<UpdateCommentInterface | null> {
-    // include: 'replies'
     const comment = await this.comment.findByPk(commentId);
 
     if (!comment) {

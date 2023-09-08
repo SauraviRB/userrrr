@@ -23,14 +23,19 @@ export const Post = sequelize.define(
         model: userModel,
         key: "id",
       },
-    
-  
     },
-    likeCount:{
-      type: DataTypes.INTEGER,
-      defaultValue: 0,
-      allowNull:false,
-    }
+    // createdAt: {
+    //   type: DataTypes.DATE,
+    //   field: "created_at",
+    // },
+    // updatedAt: {
+    //   type: DataTypes.DATE,
+    //   field: "updated_at",
+    // },
+    // deletedAt: {
+    //   type: DataTypes.BOOLEAN,
+    //   field: "deleted_at",
+    // },
   },
   {
     tableName: "post",

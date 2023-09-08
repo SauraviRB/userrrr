@@ -1,4 +1,3 @@
-import { ReactionEnum } from "../Enum/reactionEnum";
 export const likeTypeDefs = `#graphql
 
     type Like {
@@ -35,7 +34,7 @@ export const likeTypeDefs = `#graphql
     }
 
     type Query {
-        getLikedPosts(id:Int!): [Like]
+        getLikedPosts: [Like]
     }
 
     type Mutation {

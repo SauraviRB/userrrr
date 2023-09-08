@@ -1,28 +1,24 @@
 export const commentTypeDefs = `#graphql
 
     type Comment {
-        id: Int
-        description: String
-        userId: Int
-        post(id:Int!): [Post]
-        user(id:Int!): [User]
-        reply(id:Int!): [Reply]
-        postId: Int
+        id: Int!
+        description: String!
+        userId: Int!
+        post: Post
+        user: User
+        postId: Int!
     }
-    
+
     type Post {
-        description: String
-    }
-    type Reply {
-        description: String
+        description: String!
     }
     type User {
-        fullname: String
+        fullname: String!,
     }
 
     type Response {
-        status_code: Int
-        message: String
+        status_code: Int!
+        message: String!
     }
 
     input PostCommentInput {
@@ -36,7 +32,7 @@ export const commentTypeDefs = `#graphql
     }
 
     type Query {
-        getComments(id:Int!):[Comment]
+        getComments:[Comment]
 
     }
 

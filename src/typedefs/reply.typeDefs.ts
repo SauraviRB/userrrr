@@ -1,24 +1,24 @@
 export const replyTypeDefs = `#graphql
 
     type Reply {
-        id: Int
-        description: String
-        userId: Int
-        comment(id:Int!): [Comment]
-        user(id:Int!): [User]
-        commentId: Int
+        id: Int!
+        description: String!
+        userId: Int!
+        comment: Comment
+        user: User
+        commentId: Int!
     }
 
     type Comment {
-        description: String
+        description: String!
     }
     type User {
-        fullname: String
+        fullname: String!,
     }
 
     type Response {
-        status_code: Int
-        message: String
+        status_code: Int!
+        message: String!
     }
 
     input PostReplyInput {
@@ -32,7 +32,7 @@ export const replyTypeDefs = `#graphql
     }
 
     type Query {
-        getReplies(id:Int!):[Reply]
+        getReplies:[Reply]
 
     }
 

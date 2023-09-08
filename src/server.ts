@@ -1,8 +1,8 @@
 import { ApolloServer } from "@apollo/server";
 import { startStandaloneServer } from "@apollo/server/standalone";
-import { commentTypeDefs, likeTypeDefs, postTypeDefs, replyTypeDefs, userTypedefs } from "./typedefs";
+import { commentTypeDefs, postTypeDefs, replyTypeDefs, userTypedefs } from "./typedefs";
 import sequelize from "./config/database.js";
-import { authResolver, commentResolver, postResolver,replyResolver,likeResolver } from "./resolvers";
+import { authResolver, commentResolver, postResolver,replyResolver } from "./resolvers";
 import { UserInterface } from "./interface";
 import { Context } from "./helpers";
 
@@ -28,8 +28,8 @@ const init = async () => {
   connectToPostgres();
   console.log("Connected to postgres database");
   const server = new ApolloServer({
-    typeDefs: [postTypeDefs, userTypedefs, commentTypeDefs, replyTypeDefs,likeTypeDefs],
-    resolvers: [postResolver, authResolver, commentResolver, replyResolver,likeResolver],
+    typeDefs: [postTypeDefs, userTypedefs, commentTypeDefs, replyTypeDefs],
+    resolvers: [postResolver, authResolver, commentResolver, replyResolver],
     introspection: true,
   });
   const { url } = await startStandaloneServer(server, {
