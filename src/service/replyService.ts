@@ -6,9 +6,8 @@ export class ReplyService {
   async create(input: { description: string; userId: number; commentId: number }) {
     return this.reply.create(input);
   }
-  async findAll(where?: {
-    where: WhereOptions<any>;
-  }): Promise<ReplyInterface[]> {
+
+  async findAll(where: WhereOptions<any>): Promise<ReplyInterface[]> {
     return this.reply.findAll({ where });
   }
   async findByPk(replyId: number): Promise<UpdateReplyInterface | null> {

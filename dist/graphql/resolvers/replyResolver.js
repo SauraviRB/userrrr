@@ -12,7 +12,7 @@ exports.replyResolver = {
                 if (!context.user) {
                     throw new Error("Authorization header missing");
                 }
-                let allReplies = await new service_1.ReplyService(models_1.Reply).findAll();
+                let allReplies = await new service_1.ReplyService(models_1.Reply).findAll({ user_id: context.user.id });
                 return allReplies;
             }
             catch (error) {

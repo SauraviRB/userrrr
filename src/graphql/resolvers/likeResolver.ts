@@ -4,6 +4,7 @@ import { Like } from "../../models";
 import { idValidator } from "../../validator";
 import { status } from "../../helpers";
 import { Post, userModel } from "../../models";
+import { ReactionEnum } from "../../Enum";
 export const likeResolver = {
   Query: {
     // getLikedPosts: async (
@@ -18,11 +19,9 @@ export const likeResolver = {
     //     let allLikedPosts = await Like.findAll({
     //       where: { userId: context.user?.id },
     //     });
-
     //     if (!allLikedPosts || allLikedPosts.length === 0) {
     //       throw new Error("User has not liked any posts yet");
     //     }
-
     //     return allLikedPosts;
     //   } catch (error) {
     //     throw new Error(`Sorry, Couldnt like the post ${error}`);
@@ -45,55 +44,58 @@ export const likeResolver = {
         if (!context.token) {
           throw new Error("Authorization Header Missing");
         }
-
-        idValidator.validate(args.input.postId);
-        const likeExists = await Like.findOne({
-          where: { postId: args.input.postId, userId: context.user?.id },
-        });
-        if (likeExists) {
-          if (likeExists.dataValues.isLiked === true) {
-            await likeExists.update({ isLiked: false });
-            // Find the  post by its primary key (postId)
-            const joinedPost = await Post.findByPk(args.input.postId);
-            // Decrement the 'likeCount' of the joined post by 1 (if joined Post exists)
-            await joinedPost?.decrement("likeCount", { by: 1 });
-            return {
-              status_code: status.success.okay,
-              isLiked: false,
-              message: `Like is deleted from Post ${args.input.postId} `,
-            };
-          }
-
-          await likeExists.update({ isLiked: true });
-          const joinedPost = await Post.findByPk(args.input.postId);
-          await joinedPost?.increment("likeCount", { by: 1 });
-          return {
-            status_code: status.success.okay,
-            isLiked: true,
-            message: `Like is added to Post ${args.input.postId} `,
-          };
+        const { postId, reaction } = args.input;
+        console.log(postId, reaction);
+        idValidator.validate(postId);
+        const joinedPost = await Post.findByPk(postId);
+        if (!joinedPost) {
+          throw new Error(`No post available of ${postId} id`);
         }
 
-        const joinedPost = await Post.findByPk(args.input.postId);
-        if (!joinedPost)
-          throw new Error(`No post available of ${args.input.postId} id`);
-
-        await Like.create({
-          //saves the likes
-          postId: args.input.postId,
-          userId: context.user?.id,
-
+        const likeExists = await Like.findOne({
+          where: { postId: postId, userId: context.user?.id },
         });
-        await joinedPost?.increment("likeCount", { by: 1 });
-        return {
-          status_code: status.success.okay,
-          isLiked: true,
-          message: `Like is added to Post ${args.input.postId} id`,
-        };
+
+        if (likeExists) {
+          console.log(likeExists)
+          if (likeExists.dataValues.reactionEnum === "LIKE") {
+            await Like.destroy({ where: { id: likeExists.dataValues.id } });
+
+            await joinedPost.decrement("like_count", { by: 1 });
+            return {
+              status_code: status.success.okay,
+              reaction: ReactionEnum.LOVE,
+              message: `Changed reaction to "love" for Post ${postId} `,
+            };
+          } else if (
+            likeExists.dataValues.reactionEnum === "LOVE"
+          ) {
+            await Like.destroy({ where: { id: likeExists.dataValues.id } });
+            // console.log("Deleted existing LIKE reaction record");
+            await joinedPost.decrement("like_count", { by: 1 });
+            return {
+              status_code: status.success.okay,
+              reaction: null, // Remove the reaction
+              message: `Removed reaction for Post ${postId}`,
+            };
+          }
+        } else {
+          await Like.create({
+            postId,
+            userId: context.user?.id,
+            reaction_enum: reaction,
+          });
+          await joinedPost?.increment("like_count", { by: 1 });
+          return {
+            status_code: status.success.okay,
+            reaction,
+            message: `Added reaction "${reaction}" for Post ${postId}`,
+          };
+        }
       } catch (error) {
         return {
           status_code: status.errors.internalServerError,
-          isLiked: false,
+          raction: null,
           message: `An error occurred: ${error}`,
         };
       }

@@ -7,8 +7,11 @@ type Post{
     id:Int
     userId: Int
     description: String
-    comments: [Comment]
+    likeCount: Int
+    isLiked: Boolean
     reaction: ReactionEnum
+    comments: [Comment]
+   
 }
 type User{
     fullname: String!

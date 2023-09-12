@@ -21,12 +21,11 @@ exports.likeTypeDefs = `#graphql
     }
     input postLikedInput{
         postId: Int!
-        ReactionEnum: ReactionEnum!
+        reaction: ReactionEnum
     }
     enum ReactionEnum{
         LIKE
         LOVE
-
     }
 
     type LikeResponse {

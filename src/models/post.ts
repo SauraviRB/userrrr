@@ -28,6 +28,7 @@ export const Post = sequelize.define(
       type: DataTypes.INTEGER,
       columnName: "like_count",
       defaultValue: 0,
+      allowNull:false,
     },
     // createdAt: {
     //   type: DataTypes.DATE,

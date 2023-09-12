@@ -13,7 +13,7 @@ exports.postResolver = {
                 if (!context.user) {
                     throw new Error("Authorization header Missing");
                 }
-                const allPost = await new service_1.PostService(models_1.Post).findAll();
+                const allPost = await new service_1.PostService(models_1.Post).findAll({ user_id: context.user.id });
                 return allPost;
             }
             catch (error) {

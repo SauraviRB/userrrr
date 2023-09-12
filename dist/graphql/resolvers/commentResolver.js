@@ -12,7 +12,7 @@ exports.commentResolver = {
                 if (!context.user) {
                     throw new Error("Authorization header missing");
                 }
-                let allComment = await new service_1.CommentService(models_1.Comment).findAll();
+                let allComment = await new service_1.CommentService(models_1.Comment).findAll({ user_id: context.user.id });
                 return allComment;
             }
             catch (error) {

@@ -8,17 +8,17 @@ export const replyTypeDefs = `#graphql
         # comments: [Comment]
         # user: User
         commentId: Int
-        reaction: ReactionEnum
+        # reaction: ReactionEnum
     }
 
     type Comment {
         description: String
     }
-    enum ReactionEnum{
-        LIKE
-        LOVE
+    # enum ReactionEnum{
+    #     LIKE
+    #     LOVE
         
-    }
+    # }
     type User {
         fullname: String,
     }

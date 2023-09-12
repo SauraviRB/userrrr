@@ -15,25 +15,25 @@ exports.userTypedefs = `#graphql
   }
 
   type Post {
-    reaction: ReactionEnum
+    # reaction: ReactionEnum
     description: String
     comments: [Comment]
   }
 
 
-  enum ReactionEnum{
-    Like
-    LOVE
-  }
+  # enum ReactionEnum{
+  #   Like
+  #   LOVE
+  # }
   type Comment {
-    reaction: ReactionEnum
+    # reaction: ReactionEnum
     description: String
     replies: [Reply]
   }
 
   type Reply  {
     description: String
-    reaction: ReactionEnum
+    # reaction: ReactionEnum
   }
 
   # The "Query" type is special: it lists all of the available queries that

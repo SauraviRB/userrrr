@@ -4,6 +4,8 @@ type Post{
     id:Int
     userId: Int
     description: String
+    likeCount: Int
+    isLiked: Boolean
     reaction: ReactionEnum
     comments: [Comment]
    

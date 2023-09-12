@@ -6,9 +6,8 @@ export class CommentService {
   async create(input: { description: string; userId: number; postId: number }) {
     return this.comment.create(input);
   }
-  async findAll(where?: {
-    where: WhereOptions<any>;
-  }): Promise<CommentInterface[]> {
+
+  async findAll(where: WhereOptions<any>): Promise<CommentInterface[]> {
     return this.comment.findAll({ where });
   }
   async findByPk(commentId: number): Promise<UpdateCommentInterface | null> {

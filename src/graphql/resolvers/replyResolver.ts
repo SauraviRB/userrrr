@@ -16,7 +16,7 @@ export const replyResolver = {
         if (!context.user) {
           throw new Error("Authorization header missing");
         }
-        let allReplies = await new ReplyService(Reply).findAll();
+        let allReplies = await new ReplyService(Reply).findAll({user_id: context.user.id});
         return allReplies;
       } catch (error) {
         throw new Error(`error whille recieving ${error}`);

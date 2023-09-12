@@ -31,6 +31,7 @@ exports.Post = database_js_1.default.define("post", {
         type: core_1.DataTypes.INTEGER,
         columnName: "like_count",
         defaultValue: 0,
+        allowNull: false,
     },
     // createdAt: {
     //   type: DataTypes.DATE,

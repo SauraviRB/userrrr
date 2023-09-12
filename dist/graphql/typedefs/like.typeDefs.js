@@ -14,6 +14,7 @@ exports.likeTypeDefs = `#graphql
 
     type Post {
         description: String
+        likeCount: Int
     }
     type User {
         fullname: String
@@ -21,7 +22,7 @@ exports.likeTypeDefs = `#graphql
     }
     input postLikedInput{
         postId: Int!
-        ReactionEnum: ReactionEnum!
+        reaction: ReactionEnum!
     }
     enum ReactionEnum{
         LIKE
@@ -31,7 +32,7 @@ exports.likeTypeDefs = `#graphql
 
     type LikeResponse {
         status_code: Int
-        isLiked: Boolean
+        reaction: ReactionEnum
         message: String
     }
 
