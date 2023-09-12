@@ -3,7 +3,7 @@ import { WhereOptions } from "sequelize";
 export class PostService {
   constructor(public readonly post: any) {}
 
-  async create(input: { description: string; userId: number }) {
+  async create(input: { description: string; userId: number ;  isLiked: boolean}) {
     return this.post.create(input);
   }
   async findAll(where?: {

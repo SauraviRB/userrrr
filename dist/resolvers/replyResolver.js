@@ -19,10 +19,20 @@ exports.replyResolver = {
                 throw new Error(`error whille recieving ${error}`);
             }
         },
+        getReplyById: async (parents, args, context) => {
+            try {
+                const { id } = args;
+                const reply = await models_1.Reply.findOne({ where: { id } });
+                return reply;
+            }
+            catch (error) {
+                console.log(`User not found ${error}`);
+            }
+        }
     },
     Reply: {
-        user: async (Reply) => await models_1.userModel.findByPk(Reply.userId),
-        comment: async (Reply) => await models_1.Comment.findByPk(Reply.commentId),
+    // user: async (Reply: ReplyInterface) => await userModel.findByPk(Reply.userId),
+    // comment: async (Reply: ReplyInterface) => await Comment.findByPk(Reply.commentId),
     },
     Mutation: {
         createReply: async (parent, args, context) => {

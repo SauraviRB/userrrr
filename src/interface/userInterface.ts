@@ -6,6 +6,7 @@ export interface InputUserInterface {
 
 export interface UserInterface extends InputUserInterface {
   id: number;
+  
 }
 
 export interface UserLoginInterface {

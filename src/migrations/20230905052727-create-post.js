@@ -18,6 +18,10 @@ module.exports = {
         model: "users", // Name of the target table
         key: "id",     // Name of the target column
       },
+      like_count: {
+        type: DataTypes.INTEGER,
+        default: 0
+      },
 
     },
       created_at: {

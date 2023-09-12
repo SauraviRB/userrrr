@@ -28,11 +28,11 @@ const userModel = database_js_1.default.define("users", {
     },
     createdAt: {
         type: core_1.DataTypes.DATE,
-        field: "created_at",
+        columnName: "created_at",
     },
     updatedAt: {
         type: core_1.DataTypes.DATE,
-        field: "updated_at",
+        columnName: "updated_at",
     },
 }, {
     tableName: "users",

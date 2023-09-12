@@ -12,7 +12,7 @@ const helpers_2 = require("../helpers");
 const models_1 = require("../models");
 exports.authResolver = {
     Query: {
-        getAllusers: async (parent, args, context) => {
+        users: async (parent, args, context) => {
             try {
                 const allUsers = await models_1.userModel.findAll();
                 return allUsers;
@@ -20,11 +20,45 @@ exports.authResolver = {
             catch (error) {
                 console.log(`Error while retrieving all users: ${error}`);
             }
-        }
+        },
+        user: async (parent, args, context) => {
+            try {
+                const { id } = args;
+                const user = await models_1.userModel.findOne({ where: { id } });
+                return user;
+            }
+            catch (error) {
+                console.log(`User not found ${error}`);
+            }
+        },
+        // userPosts: async (
+        //   parent: ParentNode,
+        //   args: { id:number, userId: number },
+        //   context: MyContext
+        // ) => {
+        //   try {
+        //     if (!context.user) {
+        //       throw new Error("Authorization header Missing");
+        //     }
+        //     const { id, userId } = args;
+        //     // Assuming you have a way to retrieve posts from your database or data source
+        //     // You should replace this with your actual database query
+        //     const userPosts = await Post.findAll({
+        //       where: {
+        //         id,       // Filter by post ID
+        //         userId,   // Filter by user ID
+        //       },
+        //     });
+        //     return userPosts;
+        //   } catch (error) {
+        //     throw new Error("error");
+        //   }
+        // },
     },
     User: {
         post: async (user) => await models_1.Post.findAll({ where: { userId: user.id } }),
-        reply: async (user) => await models_1.Reply.findAll({ where: { userId: user.id } }),
+        // reply: async (user: UserInterface) =>
+        //   await Reply.findAll({ where: { userId: user.id } }),
     },
     Mutation: {
         registerUser: async (_, args) => {

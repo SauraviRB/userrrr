@@ -1,14 +1,14 @@
-import { Reply } from "./../models/reply";
 export const commentTypeDefs = `#graphql
 
     type Comment {
         id: Int
         description: String
         userId: Int
-        post(id:Int!): [Post]
-        user(id:Int!): User
-        reply(id:Int!): [Reply]
+        # post: [Post]
+        # user: User
+        replies: [Reply]
         postId: Int
+        # reactionEnum: ReactionEnum
     }
 
     type Reply{
@@ -18,9 +18,12 @@ export const commentTypeDefs = `#graphql
         description: String
     }
     type User {
-        fullname: String,
+        fullname: String
     }
-
+    # enum ReactionEnum{
+    #     LIKE
+    #     LOVE
+    # }
     type Response {
         status_code: Int
         message: String
@@ -37,7 +40,8 @@ export const commentTypeDefs = `#graphql
     }
 
     type Query {
-        getComments(id:Int!):[Comment]
+        getComments:[Comment]
+        getCommentById(id:Int!):Comment
 
     }
 
@@ -46,7 +50,4 @@ export const commentTypeDefs = `#graphql
         updateComment(input: UpdateCommentInput!) : Response
         deleteComment(id: Int!) : Response
     }
-
-
-
 `;

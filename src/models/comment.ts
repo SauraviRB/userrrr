@@ -19,7 +19,7 @@ export const Comment = sequelize.define(
     userId: {
       type: DataTypes.INTEGER,
       allowNull: false,
-      field: "user_id",
+      columnName: "user_id",
       references: {
         model: userModel,
         key: "id",
@@ -28,7 +28,7 @@ export const Comment = sequelize.define(
     postId: {
       type: DataTypes.INTEGER,
       allowNull: false,
-      field: "post_id",
+      columnName: "post_id",
       references: {
         model: Post,
         key: "id",

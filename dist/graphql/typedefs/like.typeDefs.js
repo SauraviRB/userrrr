@@ -1,4 +1,7 @@
-export const likeTypeDefs = `#graphql
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.likeTypeDefs = void 0;
+exports.likeTypeDefs = `#graphql
 
     type Like {
         id: Int
@@ -11,7 +14,6 @@ export const likeTypeDefs = `#graphql
 
     type Post {
         description: String
-        likeCount: Int
     }
     type User {
         fullname: String
@@ -33,12 +35,13 @@ export const likeTypeDefs = `#graphql
         message: String
     }
 
-    type Query {
-        getLikedPosts(id:Int!): [Like]
-    }
+    # type Query {
+    #     # getLikedPosts: [Like]
+    # }
 
     type Mutation {
         postToggleLike(input: postLikedInput!) : LikeResponse
     }
 
 `;
+//# sourceMappingURL=like.typeDefs.js.map

@@ -2,7 +2,6 @@ import { DataTypes } from "@sequelize/core";
 import sequelize from "../config/database.js";
 import userModel from "./user.js";
 import { Post } from "./post.js";
-import { ReactionEnum } from "../Enum";
 
 export const Like = sequelize.define(
   "like",
@@ -15,7 +14,7 @@ export const Like = sequelize.define(
     userId: {
       type: DataTypes.INTEGER,
       allowNull: false,
-      field: "user_id",
+      columnName: "user_id",
       references: {
         model: userModel,
         key: "id",
@@ -37,14 +36,13 @@ export const Like = sequelize.define(
     reactionEnum: {
       type: DataTypes.ENUM("LIKE", "LOVE"),
       allowNull: false,
-      defaultValue: ReactionEnum.LIKE,
+      defaultValue: "LIKE",
     },
   },
 
   {
     tableName: "like",
     timestamps: true,
-    paranoid: true,
     underscored: true,
   }
 );

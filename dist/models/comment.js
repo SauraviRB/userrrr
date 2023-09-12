@@ -22,7 +22,7 @@ exports.Comment = database_js_1.default.define("comment", {
     userId: {
         type: core_1.DataTypes.INTEGER,
         allowNull: false,
-        field: "user_id",
+        columnName: "user_id",
         references: {
             model: user_js_1.default,
             key: "id",
@@ -31,7 +31,7 @@ exports.Comment = database_js_1.default.define("comment", {
     postId: {
         type: core_1.DataTypes.INTEGER,
         allowNull: false,
-        field: "post_id",
+        columnName: "post_id",
         references: {
             model: post_js_1.Post,
             key: "id",

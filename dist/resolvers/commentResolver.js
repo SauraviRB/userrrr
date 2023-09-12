@@ -19,11 +19,23 @@ exports.commentResolver = {
                 throw new Error(`error whille recieving ${error}`);
             }
         },
+        getCommentById: async (parents, args, context) => {
+            try {
+                const { id } = args;
+                const comment = await models_1.Comment.findOne({ where: { id } });
+                return comment;
+            }
+            catch (error) {
+                console.log(`User not found ${error}`);
+            }
+        }
     },
     Comment: {
-        user: async (comment) => await models_1.userModel.findByPk(comment.userId),
-        post: async (comment) => await models_1.Post.findByPk(comment.postId),
-        reply: async (comment) => await models_1.Reply.findAll({ where: { commentId: comment.id } }),
+        // user: async (comment: CommentInterface) =>
+        //   await userModel.findByPk(comment.userId),
+        // post: async (comment: CommentInterface) =>
+        //   await Post.findByPk(comment.postId),
+        replies: async (comment) => await models_1.Reply.findAll({ where: { commentId: comment.id } }),
     },
     Mutation: {
         createComment: async (parent, args, context) => {

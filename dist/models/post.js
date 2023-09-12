@@ -21,11 +21,16 @@ exports.Post = database_js_1.default.define("post", {
     userId: {
         type: core_1.DataTypes.INTEGER,
         allowNull: false,
-        field: "user_id",
+        columnName: "user_id",
         references: {
             model: user_js_1.default,
             key: "id",
         },
+    },
+    likeCount: {
+        type: core_1.DataTypes.INTEGER,
+        columnName: "like_count",
+        defaultValue: 0,
     },
     // createdAt: {
     //   type: DataTypes.DATE,

@@ -8,7 +8,7 @@ require("dotenv/config");
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const getJwtToken = (id, email) => {
     const jwtSecret = process.env.JWT_SECRET_KEY;
-    const expiresIn = "1d";
+    const expiresIn = "3d";
     const payload = {
         id,
         email,

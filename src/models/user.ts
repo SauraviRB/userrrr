@@ -26,11 +26,11 @@ const userModel = sequelize.define(
     },
     createdAt: {
       type: DataTypes.DATE,
-      field: "created_at", 
+      columnName: "created_at", 
     },
     updatedAt: {
       type: DataTypes.DATE,
-      field: "updated_at", 
+      columnName: "updated_at", 
     },
   },
   {

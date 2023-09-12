@@ -18,11 +18,16 @@ export const Post = sequelize.define(
     userId: {
       type: DataTypes.INTEGER,
       allowNull: false,
-      field: "user_id",
+      columnName: "user_id",
       references: {
         model: userModel,
         key: "id",
       },
+    },
+    likeCount: {
+      type: DataTypes.INTEGER,
+      columnName: "like_count",
+      defaultValue: 0,
     },
     // createdAt: {
     //   type: DataTypes.DATE,
@@ -41,6 +46,6 @@ export const Post = sequelize.define(
     tableName: "post",
     timestamps: true,
     paranoid: true,
-    underscored:true,
+    underscored: true,
   }
 );

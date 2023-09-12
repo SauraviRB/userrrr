@@ -1,1 +1,1 @@
-export enum ReactionEnum{LIKE, LOVE}
+export * from './reaction'

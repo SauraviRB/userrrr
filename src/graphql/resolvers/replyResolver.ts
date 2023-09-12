@@ -1,18 +1,17 @@
-import { ReplyService } from "../service";
-import { status } from "../helpers";
-import {Reply,Comment,userModel} from '../models'
-import { MyContext} from '../helpers'
-import { ReplyInterface,UpdateReplyInterface } from "../interface";
-import {postReplyValidator,updateReplyValidator,deleteReplyValidator} from '../validator';
-
+import { ReplyService } from "../../service";
+import { status } from "../../helpers";
+import { Reply, Comment, userModel } from "../../models";
+import { MyContext } from "../../helpers";
+import { ReplyInterface, UpdateReplyInterface } from "../../interface";
+import {
+  postReplyValidator,
+  updateReplyValidator,
+  deleteReplyValidator,
+} from "../../validator";
 
 export const replyResolver = {
   Query: {
-    getReplies: async (
-      parent: ParentNode,
-      args: { id: number },
-      context: MyContext
-    ) => {
+    getReplies: async (parent: ParentNode, args: {}, context: MyContext) => {
       try {
         if (!context.user) {
           throw new Error("Authorization header missing");
@@ -23,11 +22,24 @@ export const replyResolver = {
         throw new Error(`error whille recieving ${error}`);
       }
     },
+    getReplyById: async (
+      parents: ParentNode,
+      args: { id: number },
+      context: MyContext
+    ) => {
+      try {
+        const { id } = args;
+        const reply = await Reply.findOne({ where: { id } });
+        return reply;
+      } catch (error) {
+        console.log(`User not found ${error}`);
+      }
+    },
   },
   Reply: {
-    user: async (Reply: ReplyInterface) => await userModel.findByPk(Reply.userId),
-    comment: async (Reply: ReplyInterface) => await Comment.findByPk(Reply.commentId),
-},
+    // user: async (Reply: ReplyInterface) => await userModel.findByPk(Reply.userId),
+    // comment: async (Reply: ReplyInterface) => await Comment.findByPk(Reply.commentId),
+  },
   Mutation: {
     createReply: async (
       parent: ParentNode,
@@ -62,7 +74,7 @@ export const replyResolver = {
         if (!context.token || !context.user)
           throw new Error("Authorization header is missng");
 
-          updateReplyValidator.validate(args.input);
+        updateReplyValidator.validate(args.input);
         const { replyId, description } = args.input;
 
         const reply = await new ReplyService(Reply).findByPk(replyId);
@@ -87,38 +99,37 @@ export const replyResolver = {
         throw new Error(`Error adding new comment: ${error}`);
       }
     },
-    deleteReply:async (
-        parent: ParentNode,
-        args: { id: number },
-        context: MyContext
-      ) => {
-        try {
-            if (!context.user) throw new Error("Authorization header is required");
-            const { id } = args;
-            const { error } = deleteReplyValidator.validate({ id });
-            if (error) throw error;
-            // const post = await new PostService(Post).findOne({id})
-            // console.log(post)
-    
-            const deletedPost = await new ReplyService(Reply).delete({
-                id,
-              userId: context.user.id,
-            });
-            console.log(deletedPost)
+    deleteReply: async (
+      parent: ParentNode,
+      args: { id: number },
+      context: MyContext
+    ) => {
+      try {
+        if (!context.user) throw new Error("Authorization header is required");
+        const { id } = args;
+        const { error } = deleteReplyValidator.validate({ id });
+        if (error) throw error;
+        // const post = await new PostService(Post).findOne({id})
+        // console.log(post)
 
-    
-            if (!deletedPost)
-              throw new Error(` you cannot delete this post or it doesnt belongs to you
+        const deletedPost = await new ReplyService(Reply).delete({
+          id,
+          userId: context.user.id,
+        });
+        console.log(deletedPost);
+
+        if (!deletedPost)
+          throw new Error(` you cannot delete this post or it doesnt belongs to you
                   : ${id}`);
-    
-            return {
-              status_code: status.success.okay,
-              message: `Post with id ${id} is deleted successfully`,
-            };
-          } catch (error:any) {
-            console.log(error.message)
-            throw new Error(`Error while deleting the post: ${error}`);
-          }
+
+        return {
+          status_code: status.success.okay,
+          message: `Post with id ${id} is deleted successfully`,
+        };
+      } catch (error: any) {
+        console.log(error.message);
+        throw new Error(`Error while deleting the post: ${error}`);
       }
+    },
   },
 };

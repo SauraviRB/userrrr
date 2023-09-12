@@ -8,7 +8,6 @@ const core_1 = require("@sequelize/core");
 const database_js_1 = __importDefault(require("../config/database.js"));
 const user_js_1 = __importDefault(require("./user.js"));
 const post_js_1 = require("./post.js");
-const Enum_1 = require("../Enum");
 exports.Like = database_js_1.default.define("like", {
     id: {
         type: core_1.DataTypes.INTEGER,
@@ -18,7 +17,7 @@ exports.Like = database_js_1.default.define("like", {
     userId: {
         type: core_1.DataTypes.INTEGER,
         allowNull: false,
-        field: "user_id",
+        columnName: "user_id",
         references: {
             model: user_js_1.default,
             key: "id",
@@ -40,12 +39,11 @@ exports.Like = database_js_1.default.define("like", {
     reactionEnum: {
         type: core_1.DataTypes.ENUM("LIKE", "LOVE"),
         allowNull: false,
-        defaultValue: Enum_1.ReactionEnum.LIKE,
+        defaultValue: "LIKE",
     },
 }, {
     tableName: "like",
     timestamps: true,
-    paranoid: true,
     underscored: true,
 });
 //# sourceMappingURL=like.js.map

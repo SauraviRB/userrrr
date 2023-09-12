@@ -4,19 +4,25 @@ exports.replyTypeDefs = void 0;
 exports.replyTypeDefs = `#graphql
 
     type Reply {
-        id: Int!
-        description: String!
+        id: Int
+        description: String
         userId: Int!
-        comment(id:Int!): [Comment]
-        user: User
-        commentId: Int!
+        # comments: [Comment]
+        # user: User
+        commentId: Int
+        # reactionEnum: ReactionEnum
     }
 
     type Comment {
-        description: String!
+        description: String
+    }
+    enum ReactionEnum{
+        LIKE
+        LOVE
+        
     }
     type User {
-        fullname: String!,
+        fullname: String,
     }
 
     type Response {
@@ -35,7 +41,9 @@ exports.replyTypeDefs = `#graphql
     }
 
     type Query {
-        getReplies(id:Int!):[Reply]
+        getReplies:[Reply]
+        getReplyById(id:Int!):Reply
+
 
     }
 

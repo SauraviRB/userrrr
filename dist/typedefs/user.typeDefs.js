@@ -10,11 +10,32 @@ exports.userTypedefs = `#graphql
     fullname: String
     email: String
     password: String
-    post(id:Int!): [Post]
-    comment(id:Int!): [Comment]
-    reply(id:Int!): [Reply]
-    
+    post: [Post]
+  
   }
+
+  type Post {
+    # reactionEnum: ReactionEnum
+    description: String
+    comments: [Comment]
+  }
+
+
+  # enum ReactionEnum{
+  #   Like
+  #   LOVE
+  # }
+  type Comment {
+    # reactionEnum: ReactionEnum
+    description: String
+    replies: [Reply]
+  }
+
+  type Reply  {
+    description: String
+    # reactionEnum: ReactionEnum
+  }
+
   # The "Query" type is special: it lists all of the available queries that
   # clients can execute, along with the return type for each. In this
   # case, the "books" query returns an array of zero or more Books (defined above).
@@ -27,21 +48,6 @@ exports.userTypedefs = `#graphql
     email:String
     password:String
   }
-  input EmailVerify{
-    email: String
-  }
-  type Post{
-    description: String
-  }
-  type Comment{
-    description: String
-
-  }
-  type Reply{
-    description: String
-
-  }
-
  
   type LoginResponse{
         email: String
@@ -55,14 +61,15 @@ exports.userTypedefs = `#graphql
     email: String
   }
   type Query {
-  getAllusers(id:Int!): [User]
+    user(id: Int!): User
+    users: [User]
+    # userPosts(id:Int!,userId:Int!): [Post] 
     
+
   }
   type Mutation{
     registerUser(registerInput:RegisterInput):registrationResponse
     loginUser(loginInput:LoginInput):LoginResponse
   }
- 
-
 `;
 //# sourceMappingURL=user.typeDefs.js.map

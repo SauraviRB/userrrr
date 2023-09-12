@@ -14,7 +14,6 @@ exports.likeTypeDefs = `#graphql
 
     type Post {
         description: String
-        likeCount: Int
     }
     type User {
         fullname: String
@@ -37,7 +36,7 @@ exports.likeTypeDefs = `#graphql
     }
 
     type Query {
-        getLikedPosts(id:Int!): [Like]
+        getLikedPosts: [Like]
     }
 
     type Mutation {

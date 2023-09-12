@@ -22,7 +22,7 @@ exports.Reply = database_js_1.default.define("reply", {
     userId: {
         type: core_1.DataTypes.INTEGER,
         allowNull: false,
-        field: "user_id",
+        columnName: "user_id",
         references: {
             model: user_js_1.default,
             key: "id",
@@ -31,7 +31,7 @@ exports.Reply = database_js_1.default.define("reply", {
     commentId: {
         type: core_1.DataTypes.INTEGER,
         allowNull: false,
-        field: "comment_id",
+        columnName: "comment_id",
         references: {
             model: comment_js_1.Comment,
             key: "id",

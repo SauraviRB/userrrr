@@ -4,13 +4,11 @@ exports.postTypeDefs = void 0;
 exports.postTypeDefs = `#graphql
 
 type Post{
-    id:Int!
+    id:Int
     userId: Int
-   description: String!
-   comment(id:Int!): [Comment]
-   user: User
-   reply:[Reply]
-
+    description: String
+    comments: [Comment]
+    # reaction: ReactionEnum
 }
 type User{
     fullname: String!
@@ -19,10 +17,20 @@ type User{
 }
 type Comment{
     description: String
+    # reaction: ReactionEnum
+    replies: [Reply]
+
 }
 type Reply{
     description: String
+    # reaction: ReactionEnum
+
 }
+# enum ReactionEnum{
+#     LOVE
+#     LIKE
+# }
+
 input GetAllPostInput{
     user: Int!
     token: String!
@@ -41,8 +49,8 @@ type Response{
 }
 
 type Query{
-    getAllPosts(id:Int!):[Post]
-#     getPostById(post_id:Int!):Post
+    getAllPosts:[Post]
+    getPostById(id:Int!):Post
 #     getMyPosts: [Post]
 }
 

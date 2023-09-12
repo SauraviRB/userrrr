@@ -66,10 +66,11 @@ exports.likeResolver = {
                 if (!joinedPost)
                     throw new Error(`No post available of ${args.input.postId} id`);
                 await models_1.Like.create({
+                    //saves the likes
                     postId: args.input.postId,
                     userId: context.user?.id,
                 });
-                await joinedPost?.increment('likeCount', { by: 1 });
+                await joinedPost?.increment("likeCount", { by: 1 });
                 return {
                     status_code: helpers_1.status.success.okay,
                     isLiked: true,

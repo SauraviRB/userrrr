@@ -1,31 +1,77 @@
-import { LoginSchema, registerValidate } from "../validator/validatorInput";
+import { LoginSchema, registerValidate } from "../../validator/validatorInput";
 import bcrypt from "bcrypt";
 import { GraphQLError } from "graphql";
-import { UserInterface } from "../interface/userInterface.js";
-import { UserLoginInterface,InputUserInterface } from "../interface/userInterface.js";
-import { MyContext, status } from "../helpers";
-import { getJwtToken } from "../helpers";
-import {Like,Post,userModel,Reply} from '../models'
+import { UserInterface } from "../../interface/userInterface.js";
+import {
+  UserLoginInterface,
+  InputUserInterface,
+  PostInterface,
+} from "../../interface";
+import { MyContext, status } from "../../helpers";
+import { getJwtToken } from "../../helpers";
+import { Like, Post, userModel, Reply } from "../../models";
 
 export const authResolver = {
-  Query:{
-    getAllusers: async (parent: ParentNode, args: { input: InputUserInterface },
-      context: MyContext) => {
+  Query: {
+    users: async (
+      parent: ParentNode,
+      args: { input: InputUserInterface },
+      context: MyContext
+    ) => {
       try {
-        const allUsers = await userModel.findAll()
-        return allUsers
+        const allUsers = await userModel.findAll();
+        return allUsers;
       } catch (error) {
         console.log(`Error while retrieving all users: ${error}`);
-
       }
+    },
+    user: async (
+      parent: ParentNode,
+      args: { id: number },
+      context: MyContext
+    ) => {
+      try {
+        const { id } = args;
+        const user = await userModel.findOne({ where: { id } });
+        return user;
+      } catch (error) {
+        console.log(`User not found ${error}`);
+      }
+    },
 
-    }
+    // userPosts: async (
+    //   parent: ParentNode,
+    //   args: { id:number, userId: number },
+    //   context: MyContext
+    // ) => {
+    //   try {
+
+    //     if (!context.user) {
+    //       throw new Error("Authorization header Missing");
+    //     }
+    //     const { id, userId } = args;
+
+    //     // Assuming you have a way to retrieve posts from your database or data source
+    //     // You should replace this with your actual database query
+    //     const userPosts = await Post.findAll({
+    //       where: {
+    //         id,       // Filter by post ID
+    //         userId,   // Filter by user ID
+    //       },
+    //     });
+
+    //     return userPosts;
+    //   } catch (error) {
+    //     throw new Error("error");
+    //   }
+    // },
   },
   User: {
-    post: async (user: UserInterface) => await Post.findAll({where: {userId:user.id}}),
-    reply: async (user: UserInterface) => await Reply.findAll({where: {userId:user.id}}),
-
-},
+    post: async (user: UserInterface) =>
+      await Post.findAll({ where: { userId: user.id } }),
+    // reply: async (user: UserInterface) =>
+    //   await Reply.findAll({ where: { userId: user.id } }),
+  },
   Mutation: {
     registerUser: async (_: any, args: { registerInput: UserInterface }) => {
       const {

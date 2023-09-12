@@ -13,20 +13,30 @@ exports.postResolver = {
                 if (!context.user) {
                     throw new Error("Authorization header Missing");
                 }
-                let allPost = await new service_1.PostService(models_1.Post).findAll();
+                const allPost = await new service_1.PostService(models_1.Post).findAll();
                 return allPost;
             }
             catch (error) {
                 throw new Error(`Error while retrieving all posts: ${error}`);
             }
         },
+        getPostById: async (parent, args, context) => {
+            try {
+                const { id } = args;
+                const post = await models_1.Post.findOne({ where: { id } });
+                return post;
+            }
+            catch (error) {
+                console.log(`User not found ${error}`);
+            }
+        },
     },
     Post: {
-        user: async (Post) => await models_1.userModel.findByPk(Post.userId),
-        comment: async (post) => await models_1.Comment.findAll({ where: { postId: post.id } })
+        // user: async (Post: PostInterface) => await userModel.findByPk(Post.userId),
+        comments: async (post) => await models_1.Comment.findAll({ where: { postId: post.id } }),
     },
     Mutation: {
-        createPost: async (parent, args, context, info) => {
+        createPost: async (parent, args, context) => {
             try {
                 if (!context.user) {
                     throw new Error("Authorization header Misiing");
